@@ -24,6 +24,10 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - created
+                  - preexisting
+                  - errored
                 properties:
                   created:
                     $ref: '#/components/schemas/WorkArray'
