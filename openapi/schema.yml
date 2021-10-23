@@ -3,7 +3,7 @@ info:
   title: Pipeline Orchestration
   version: "1.0"
 servers:
-  - url: http://locallost:8080/v1
+  - url: http://localhost:8080/v1
 paths:
   /pipeline/{pipeline_id}/register_work:
     post:
@@ -56,7 +56,7 @@ paths:
             default: 1
       responses:
         "200":
-          description: enumerate work claimed
+          description: enumerate work claimed 
           content:
             application/json:
               schema:
