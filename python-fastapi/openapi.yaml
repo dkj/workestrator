@@ -1,0 +1,250 @@
+openapi: 3.0.2
+info:
+  title: Pipeline Orchestration
+  version: "1.0"
+servers:
+- url: http://localhost:8080/v1
+paths:
+  /pipeline/{pipeline_id}/register_work:
+    post:
+      parameters:
+      - explode: false
+        in: path
+        name: pipeline_id
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkArray'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkRegistrationResult'
+          description: enumerate work newly registered, pre-existing, and any failed
+            to register
+      summary: Registers work to be done by a pipeline
+  /pipeline/{pipeline_id}/claim_work:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: pipeline_id
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: max_items
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkArray'
+          description: enumerate work claimed
+      summary: Claim work to be done by a pipeline
+components:
+  parameters:
+    Pipeline:
+      explode: false
+      in: path
+      name: pipeline_id
+      required: true
+      schema:
+        maxLength: 64
+        type: string
+      style: simple
+  schemas:
+    Work:
+      example:
+        unique:
+          run: 1234
+          lane: 5
+          tag_index: 6
+        info:
+          species: Homo sapiens
+          library_type: cell partitioned RNA expression
+      properties:
+        unique:
+          description: identifies a unique piece of work for this pipeline
+          example:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          title: unique
+          type: object
+        info:
+          description: info useful when claiming and executing the work, but not fundamentally
+            forming part of the uniqness
+          example:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+          title: info
+          type: object
+      required:
+      - unique
+      title: Work
+      type: object
+    WorkArray:
+      default: []
+      items:
+        $ref: '#/components/schemas/Work'
+      maxItems: 1024
+      minItems: 0
+      title: created
+      type: array
+    WorkRegistrationResult:
+      example:
+        preexisting:
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        created:
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        errored:
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+      properties:
+        created:
+          default: []
+          items:
+            $ref: '#/components/schemas/Work'
+          maxItems: 1024
+          minItems: 0
+          title: created
+          type: array
+        preexisting:
+          default: []
+          items:
+            $ref: '#/components/schemas/Work'
+          maxItems: 1024
+          minItems: 0
+          title: created
+          type: array
+        errored:
+          items:
+            $ref: '#/components/schemas/Work'
+          maxItems: 1024
+          minItems: 0
+          title: errored
+          type: array
+      required:
+      - created
+      - errored
+      - preexisting
+      title: WorkRegistrationResult
+      type: object
