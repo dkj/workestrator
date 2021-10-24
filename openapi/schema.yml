@@ -23,26 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - created
-                  - preexisting
-                  - errored
-                properties:
-                  created:
-                    $ref: '#/components/schemas/WorkArray'
-                  preexisting:
-                    $ref: '#/components/schemas/WorkArray'
-                  errored:
-                    type: array
-                    minItems: 0
-                    maxItems: 1024
-                    items:
-                      $ref: '#/components/schemas/Work'
-                      properties:
-                        error:
-                          type: string
-                          example: database error
+                $ref: '#/components/schemas/WorkRegistrationResult'
   /pipeline/{pipeline_id}/claim_work:
     get:
       summary: Claim work to be done by a pipeline
@@ -95,4 +76,27 @@ components:
       maxItems: 1024
       items:
         $ref: '#/components/schemas/Work'
+      default: []
+    WorkRegistrationResult:
+      type: object
+      required:
+        - created
+        - preexisting
+        - errored
+      properties:
+        created:
+          $ref: '#/components/schemas/WorkArray'
+        preexisting:
+          $ref: '#/components/schemas/WorkArray'
+        errored:
+          type: array
+          minItems: 0
+          maxItems: 1024
+          items:
+            $ref: '#/components/schemas/Work'
+            properties:
+              error:
+                type: string
+                example: database error
+
     
