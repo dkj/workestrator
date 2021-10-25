@@ -2,11 +2,6 @@
 
 from fastapi.testclient import TestClient
 
-
-from openapi_server.models.inline_response200 import InlineResponse200  # noqa: F401
-from openapi_server.models.work import Work  # noqa: F401
-
-
 def test_pipeline_pipeline_id_claim_work_get(client: TestClient):
     """Test case for pipeline_pipeline_id_claim_work_get
 
@@ -23,7 +18,7 @@ def test_pipeline_pipeline_id_claim_work_get(client: TestClient):
     )
 
     # uncomment below to assert the status code of the HTTP response
-    #assert response.status_code == 200
+    assert response.status_code == 200
 
 
 def test_pipeline_pipeline_id_register_work_post(client: TestClient):
@@ -43,5 +38,5 @@ def test_pipeline_pipeline_id_register_work_post(client: TestClient):
     )
 
     # uncomment below to assert the status code of the HTTP response
-    #assert response.status_code == 200
+    assert response.status_code == 200
 
