@@ -32,7 +32,7 @@ paths:
             to register
       summary: Registers work to be done by a pipeline
   /pipeline/{pipeline_id}/claim_work:
-    get:
+    put:
       parameters:
       - explode: false
         in: path

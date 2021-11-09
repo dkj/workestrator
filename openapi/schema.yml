@@ -25,7 +25,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkRegistrationResult'
   /pipeline/{pipeline_id}/claim_work:
-    get:
+    put:
       summary: Claim work to be done by a pipeline
       parameters:
         - $ref: '#/components/parameters/Pipeline'

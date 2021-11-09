@@ -2,8 +2,8 @@
 
 from fastapi.testclient import TestClient
 
-def test_pipeline_pipeline_id_claim_work_get(client: TestClient):
-    """Test case for pipeline_pipeline_id_claim_work_get
+def test_pipeline_pipeline_id_claim_work_put(client: TestClient):
+    """Test case for pipeline_pipeline_id_claim_work_put
 
     Claim work to be done by a pipeline
     """
@@ -11,7 +11,7 @@ def test_pipeline_pipeline_id_claim_work_get(client: TestClient):
     headers = {
     }
     response = client.request(
-        "GET",
+        "PUT",
         "/pipeline/{pipeline_id}/claim_work".format(pipeline_id='pipeline_id_example'),
         headers=headers,
         params=params,

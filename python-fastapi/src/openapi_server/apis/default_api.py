@@ -42,7 +42,7 @@ def _jencode(d:Dict) -> String:
 router = APIRouter()
 
 
-@router.get(
+@router.put(
     "/pipeline/{pipeline_id}/claim_work",
     responses={
         200: {"model": List[Work], "description": "enumerate work claimed"},
@@ -50,7 +50,7 @@ router = APIRouter()
     tags=["default"],
     summary="Claim work to be done by a pipeline",
 )
-async def pipeline_pipeline_id_claim_work_get(
+async def pipeline_pipeline_id_claim_work_put(
     pipeline_id: str = Path(None, description="", max_length=64),
     max_items: int = Query(1, description=""),
     db: Session = Depends(get_db)

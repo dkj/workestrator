@@ -19,7 +19,7 @@ class WorkRegistrationResult(BaseModel):
 
         created: The created of this WorkRegistrationResult.
         preexisting: The preexisting of this WorkRegistrationResult.
-        errored: The errored onf this WorkRegistrationResult.
+        errored: The errored of this WorkRegistrationResult.
     """
 
     created: List[Work] = []
