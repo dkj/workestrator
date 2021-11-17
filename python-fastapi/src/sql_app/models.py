@@ -11,5 +11,5 @@ class PipelineWork(Base):
     pipeline_id = Column(String, primary_key=True, index=True)
     unique = Column(String, primary_key=True, index=True)
     info = Column(String)
-    claimed = Column(Boolean, default=False)
+    state = Column(String, default="PENDING")
 

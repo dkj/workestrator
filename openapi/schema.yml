@@ -24,6 +24,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WorkRegistrationResult'
+  /pipeline/{pipeline_id}/update_work:
+    put:
+      summary: Updates state, or info, of work done by a pipeline
+      parameters:
+        - $ref: '#/components/parameters/Pipeline'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkArray'
+              minItems: 1
+      responses:
+        "200":
+          description: enumerate work updated, any failures to update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkUpdateResult'
   /pipeline/{pipeline_id}/claim_work:
     put:
       summary: Claim work to be done by a pipeline
@@ -68,6 +87,10 @@ components:
           example:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
+        state:
+          description: where in its lifecycle the Work its
+          type: string
+          enum: ["PENDING","CLAIMED","RUNNING","COMPLETED","FAILED","ANNULLED"]
       required:
         - unique
     WorkArray:
@@ -98,5 +121,21 @@ components:
               error:
                 type: string
                 example: database error
-
-    
+    WorkUpdateResult:
+      type: object
+      required:
+        - updated
+        - errored
+      properties:
+        updated:
+          $ref: '#/components/schemas/WorkArray'
+        errored:
+          type: array
+          minItems: 0
+          maxItems: 1024
+          items:
+            $ref: '#/components/schemas/Work'
+            properties:
+              error:
+                type: string
+                example: database error

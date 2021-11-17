@@ -31,6 +31,31 @@ paths:
           description: enumerate work newly registered, pre-existing, and any failed
             to register
       summary: Registers work to be done by a pipeline
+  /pipeline/{pipeline_id}/update_work:
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: pipeline_id
+        required: true
+        schema:
+          maxLength: 64
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkArray'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkUpdateResult'
+          description: enumerate work updated, any failures to update
+      summary: Updates state, or info, of work done by a pipeline
   /pipeline/{pipeline_id}/claim_work:
     put:
       parameters:
@@ -76,6 +101,7 @@ components:
           run: 1234
           lane: 5
           tag_index: 6
+        state: PENDING
         info:
           species: Homo sapiens
           library_type: cell partitioned RNA expression
@@ -96,6 +122,17 @@ components:
             library_type: cell partitioned RNA expression
           title: info
           type: object
+        state:
+          description: where in its lifecycle the Work its
+          enum:
+          - PENDING
+          - CLAIMED
+          - RUNNING
+          - COMPLETED
+          - FAILED
+          - ANNULLED
+          title: state
+          type: string
       required:
       - unique
       title: Work
@@ -115,6 +152,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -122,6 +160,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -129,6 +168,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -136,6 +176,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -143,6 +184,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -151,6 +193,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -158,6 +201,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -165,6 +209,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -172,6 +217,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -179,6 +225,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -187,6 +234,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -194,6 +242,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -201,6 +250,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -208,6 +258,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -215,6 +266,7 @@ components:
             run: 1234
             lane: 5
             tag_index: 6
+          state: PENDING
           info:
             species: Homo sapiens
             library_type: cell partitioned RNA expression
@@ -247,4 +299,109 @@ components:
       - errored
       - preexisting
       title: WorkRegistrationResult
+      type: object
+    WorkUpdateResult:
+      example:
+        updated:
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        errored:
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        - unique:
+            run: 1234
+            lane: 5
+            tag_index: 6
+          state: PENDING
+          info:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+      properties:
+        updated:
+          default: []
+          items:
+            $ref: '#/components/schemas/Work'
+          maxItems: 1024
+          minItems: 0
+          title: created
+          type: array
+        errored:
+          items:
+            $ref: '#/components/schemas/Work'
+          maxItems: 1024
+          minItems: 0
+          title: errored
+          type: array
+      required:
+      - errored
+      - updated
+      title: WorkUpdateResult
       type: object
