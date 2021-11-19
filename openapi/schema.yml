@@ -1,0 +1,141 @@
+openapi: "3.0.2"
+info:
+  title: Pipeline Orchestration
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/v1
+paths:
+  /pipeline/{pipeline_id}/register_work:
+    post:
+      summary: Registers work to be done by a pipeline
+      parameters:
+        - $ref: '#/components/parameters/Pipeline'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkArray'
+              minItems: 1
+      responses:
+        "200":
+          description: enumerate work newly registered, pre-existing, and any failed to register
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkRegistrationResult'
+  /pipeline/{pipeline_id}/update_work:
+    put:
+      summary: Updates state, or info, of work done by a pipeline
+      parameters:
+        - $ref: '#/components/parameters/Pipeline'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkArray'
+              minItems: 1
+      responses:
+        "200":
+          description: enumerate work updated, any failures to update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkUpdateResult'
+  /pipeline/{pipeline_id}/claim_work:
+    put:
+      summary: Claim work to be done by a pipeline
+      parameters:
+        - $ref: '#/components/parameters/Pipeline'
+        - name: max_items
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        "200":
+          description: enumerate work claimed 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkArray'
+components:
+  parameters:
+    Pipeline:
+      name: pipeline_id
+      in: path
+      required: true
+      schema:
+        type: string
+        maxLength: 64
+  schemas:
+    Work:
+      type: object
+      properties:
+        unique:
+          description: identifies a unique piece of work for this pipeline
+          type: object
+          example:
+            run: 1234
+            lane: 5
+            tag_index: 6
+        info:
+          description: info useful when claiming and executing the work, but not fundamentally forming part of the uniqness
+          type: object
+          example:
+            species: Homo sapiens
+            library_type: cell partitioned RNA expression
+        state:
+          description: where in its lifecycle the Work its
+          type: string
+          enum: ["PENDING","CLAIMED","RUNNING","COMPLETED","FAILED","ANNULLED"]
+      required:
+        - unique
+    WorkArray:
+      type: array
+      minItems: 0
+      maxItems: 1024
+      items:
+        $ref: '#/components/schemas/Work'
+      default: []
+    WorkRegistrationResult:
+      type: object
+      required:
+        - created
+        - preexisting
+        - errored
+      properties:
+        created:
+          $ref: '#/components/schemas/WorkArray'
+        preexisting:
+          $ref: '#/components/schemas/WorkArray'
+        errored:
+          type: array
+          minItems: 0
+          maxItems: 1024
+          items:
+            $ref: '#/components/schemas/Work'
+            properties:
+              error:
+                type: string
+                example: database error
+    WorkUpdateResult:
+      type: object
+      required:
+        - updated
+        - errored
+      properties:
+        updated:
+          $ref: '#/components/schemas/WorkArray'
+        errored:
+          type: array
+          minItems: 0
+          maxItems: 1024
+          items:
+            $ref: '#/components/schemas/Work'
+            properties:
+              error:
+                type: string
+                example: database error
